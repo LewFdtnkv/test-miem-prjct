@@ -62,7 +62,7 @@ function Project({ project, index, moveProject, removeProject }) {
   );
 }
 
-export default function Schedule({ time, setProjects, projects, rest, selectedRests, selectedDates, setSelectedDates }) {
+export default function Schedule({ time, setProjects, projects, rest, selectedRests, selectedDates, setRest }) {
   const [prjt, setPrjct] = useState([]);
 
   useEffect(() => {
@@ -175,9 +175,35 @@ export default function Schedule({ time, setProjects, projects, rest, selectedRe
   };
   const removeProject = (index) => {
     const updatedProjects = prjt.filter((_, i) => i !== index || prjt[i].name !== 'Перерыв');
-    setPrjct(updatedProjects);
-    setProjects(updatedProjects);
+    
+    if (prjt[index].name === 'Перерыв') {
+      setRest([]);
+    }
+  
+    let currentStartTime = dayjs(time[0], 'HH:mm');
+    const recalculatedProjects = updatedProjects.map((project) => {
+      const duration = project.name === 'Перерыв' 
+        ? dayjs(rest[1], 'HH:mm').diff(dayjs(rest[0], 'HH:mm'), 'minute')
+        : 20 + 5 * project.participants;
+  
+      const startTime = currentStartTime.format('HH:mm');
+      const endTime = currentStartTime.add(duration, 'minute');
+  
+      const updatedProject = {
+        ...project,
+        startTime,
+        endTime: endTime.isAfter(dayjs(time[1])) ? dayjs(time[1]).format('HH:mm') : endTime.format('HH:mm'),
+      };
+  
+      currentStartTime = endTime; 
+      return updatedProject;
+    });
+  
+    setPrjct(recalculatedProjects);
+    setProjects(recalculatedProjects);
   };
+  
+  
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="schedule_list">

@@ -18,12 +18,12 @@ export default function App() {
   const [selectedRests, setSelectedRests] = useState([])
   return (
     <>
-      <Buttons setMode={setMode} setBreaken={setBreaken}/>
+      <Buttons setMode={setMode} setBreaken={setBreaken} rest={rest}/>
       {mode === 'default' && <MainPage setRest={setRest} rest={rest}selectedRests={selectedRests} setMode={setMode}selectedDates={selectedDates}setSelectedDates={setSelectedDates}time={time}setTime={setTime} projects={projects} setProjects={setProjects}/>}
       
       {mode === 'calendar' && <MultiDateCalendar selectedRests={selectedRests}setSelectedRests={setSelectedRests} breaken={breaken} setBreaken={setBreaken}selectedDates={selectedDates} setSelectedDates={setSelectedDates} setMode={setMode}/>}
       {mode === 'editGraph' && <EditScheduleWindow setRest={setRest}setSelectedDates={setSelectedDates} selectedDates={selectedDates}time={time}setTime={setTime} setMode={setMode} format={format}/>}
-      {mode === 'addBreak' && <AddBreakWindow setMode={setMode} setBreaken={setBreaken} projects={projects} setProjects={setProjects} format={format} rest={rest} setRest={setRest} selectedRests={selectedRests}setSelectedRests={setSelectedRests}/>}
+      {mode === 'addBreak' && <AddBreakWindow setProjects={setProjects} setMode={setMode} setBreaken={setBreaken} projects={projects}  format={format} rest={rest} setRest={setRest} selectedRests={selectedRests}setSelectedRests={setSelectedRests}/>}
      
     </>
   )
