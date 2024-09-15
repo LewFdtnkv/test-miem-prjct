@@ -30,7 +30,7 @@ export default function EditScheduleWindow({ setRest, setMode, selectedDates, se
       message.error('График работы не составлен');
       return;
     }    if (dayjs(time[0], format).isAfter(dayjs(time[1], format))) {
-      message.error('Начальное время не может быть позже конечного времени.');
+      message.error('Начальное время не может быть позже конечного.');
       return;
     }
     setRest([])
