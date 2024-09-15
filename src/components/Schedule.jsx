@@ -203,7 +203,6 @@ export default function Schedule({ time, setProjects, projects, rest, selectedRe
     setProjects(recalculatedProjects);
   };
   
-  
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="schedule_list">
